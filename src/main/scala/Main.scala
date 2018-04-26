@@ -148,8 +148,8 @@ object Main {
   def calculateTopPollutionEventsPerWeek(df: DataFrame): DataFrame = {
     import df.sparkSession.implicits._
     df
-      .withWatermark("timestamp", "14 days")
-      .groupBy($"source", window($"timestamp","7 days"))
+      .withWatermark("timestamp", "2 weeks")
+      .groupBy(window($"timestamp","1 week"), $"source")
       .agg(min("timestamp").alias("start_timestamp"),
         max("timestamp").alias("end_timestamp"),
         max("pm").alias("max_pm"),
